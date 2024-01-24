@@ -1,0 +1,85 @@
+body{
+margin: 1px;
+padding: 2px;
+}
+
+h1{
+   text-align: center;
+   text-transform: uppercase;
+   color: green;
+}
+.Add{
+   margin-left: 91%;
+   background-color: rgb(121, 195, 11);
+   color: white;
+   padding: 10px 40px;
+   font-size: 17px;
+   font-weight: bold;
+   
+   cursor: pointer;
+   border: none;
+   border-radius: 20px;
+  
+}
+.Add:hover{
+   background-color: antiquewhite;
+   color:black
+}
+
+table{
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 10px;
+}
+th,td{
+   padding: 10px;
+   border:1px solid black;
+   text-align: center;
+   
+
+}
+th{
+   background-color: aliceblue;
+}
+
+
+.Edit{
+
+   padding: 12px 30px;
+   background-color: green;
+   color: white;
+   cursor: pointer;
+   border: none;
+   border-radius: 14px;
+
+   font-size: 16px;
+   font-weight: bold;
+   margin: 2px;
+  
+}
+.Delete{
+   padding: 12px 30px;
+   background-color: red;
+   color: white;
+   cursor: pointer;
+   border: none;
+   border-radius: 14px;
+   font-size: 16px;
+   font-weight: bold;
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

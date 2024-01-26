@@ -1,8 +1,17 @@
+import { Route, Routes} from 'react-router-dom';
 
 import Inventroy from "./inventory";
 function App() {
   return (
-  <Inventroy/>
+    <div > 
+    
+    <Routes>
+       <Route path="/" element={<Inventroy/>}/>
+       
+      
+      </Routes>
+    
+ </div>
   );
 }
 

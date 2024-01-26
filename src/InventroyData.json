@@ -3,7 +3,7 @@
       "name":"coffee",
       "Price":"20$",
       "quantity":4,
-      "Sold":4
+      "sold":4
    },
    {
       "name":"Tea",
@@ -14,7 +14,7 @@
 {"name":"Cold coffee",
 "Price":"34$",
 "quantity":6,
-"Sold":3
+"sold":3
 },{
    "name":"Burgger",
    "Price":"30$",

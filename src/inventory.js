@@ -1,124 +1,210 @@
+
+
 import React from "react";
+import { connect } from "react-redux";
+import { addItem, deleteItem, updateItem } from "./action";
+import { Link } from 'react-router-dom';
 import "./inventroy.css";
-import Json from "./InventroyData.json";
-class Inventroy extends React.Component{
-   constructor(props){
-      super(props);
-      this.state={
-         showEditPopup:false,
-         showDeletePopup:false,
-         showAddPopup:false
-      }
-   }
-//handleEditPopu
-handleShowEditPopup=()=>{
-   this.setState({
-      showEditPopup:true
-   });
-}
 
+class Inventory extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showEditPopup: false,
+      showDeletePopup: false,
+      selectedItem: null,
+      newName: "",
+      newPrice: "",
+      newQuantity: "",
+      newSold: "",
+    };
+  }
 
-   //handleDeleteButton
-handleDeletepopup=()=>{
-   this.setState({showDeletePopup:true});
-}
-//handleCancelPopup
-handleCanclePopup=()=>{
-   this.setState({
-      showDeletePopup:false,
-      showEditPopup:false
-   })
-}
+  handleAddItem = () => {
+    const newItem = {
+      name: this.state.newName || "New Product",
+      Price: this.state.newPrice || 0,
+      quantity: this.state.newQuantity || 0,
+      sold: this.state.newSold || 0,
+    };
 
-   render(){
-      const {showDeletePopup,showEditPopup}=this.state;
-      return<div>
-     <h1>Inventrory</h1>
-     <button className="Add">Add</button>
+    this.props.addItem(newItem);
 
+    // Reset the input fields after adding an item
+    this.setState({
+      newName: "",
+      newPrice: "",
+      newQuantity: "",
+      newSold: "",
+    });
+  };
 
-      <table>
-    <thead>
-      <tr>
-         <th>ProdutName</th>
-         <th>Price</th>
-         <th>Quantity</th>
-         <th>Sold</th>
-         <th>Action</th> 
-      </tr>
-    </thead>
+  handleUpdateItem = () => {
+    const { selectedItem, newName, newPrice, newQuantity, newSold } = this.state;
+    if (selectedItem) {
+      const updatedItem = {
+        ...selectedItem,
+        name: newName || selectedItem.name,
+        Price: newPrice || selectedItem.Price,
+        quantity: newQuantity || selectedItem.quantity,
+        sold: newSold || selectedItem.sold,
+      };
 
-<tbody>
-{
-   Json.map((item)=>(
-      <tr key={item.name}>
-         <td>{item.name}</td>
-         <td>{item.Price}</td>
-         <td>{item.quantity}</td>
-         <td>{item.sold}</td>
-         <td>
-         <button className="Edit" onClick={this.handleShowEditPopup}>Edit</button>
-         <button className="Delete" onClick={this.handleDeletepopup}>Delete</button>
-      </td>
-      </tr>
-   ))
-}
+      this.props.updateItem(updatedItem);
+      this.handleCancelPopup();
+    }
+  };
 
-</tbody>
+  handleDeleteItem = () => {
+    const { selectedItem } = this.state;
+    if (selectedItem) {
+      this.props.deleteItem(selectedItem.name);
+      this.handleCancelPopup();
+    }
+  };
 
+  handleShowEditPopup = (item) => {
+    this.setState({
+      showEditPopup: true,
+      selectedItem: item,
+      newName: item.name,
+      newPrice: item.Price,
+      newQuantity: item.quantity,
+      newSold: item.sold,
+    });
+  };
 
+  handleDeletePopup = (item) => {
+    this.setState({ showDeletePopup: true, selectedItem: item });
+  };
 
-      </table>
+  handleCancelPopup = () => {
+    this.setState({
+      showDeletePopup: false,
+      showEditPopup: false,
+      selectedItem: null,
+    });
+  };
 
-{showEditPopup&&(
-<div className="Popup">
-  <div className="Popup-content">
-   <p>Edit Your Data</p>
-   <div className="EditPopup">
-      <div className="editlabel">
-      <label>ProdutName</label>
-      <label>Price</label>
-      <label>Quantity</label>
-      <label>Sold</label>
+  render() {
+    const { showDeletePopup, showEditPopup, newName, newPrice, newQuantity, newSold } = this.state;
+
+    return (
+      <div>
+        <h1>Inventory</h1>
+        <Link to ='/Add'>
+        <button className="Add" onClick={this.handleAddItem}>
+          Add
+        </button>
+        </Link>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Sold</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.items.map((item) => (
+              <tr key={item.name}>
+                <td>{item.name}</td>
+                <td>{item.Price}</td>
+                <td>{item.quantity}</td>
+                <td>{item.sold}</td>
+                <td>
+                  <button className="Edit" onClick={() => this.handleShowEditPopup(item)}>
+                    Edit
+                  </button>
+                  <button className="Delete" onClick={() => this.handleDeletePopup(item)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {showEditPopup && (
+          <div className="Popup">
+            <div className="Popup-content">
+              <p>Edit Your Data</p>
+              <div className="EditPopup">
+                <div className="editlabel">
+                  <label>Product Name</label>
+                  <label>Price</label>
+                  <label>Quantity</label>
+                  <label>Sold</label>
+                </div>
+
+                <div className="editbox">
+                  <input
+                    type="text"
+                    value={newName}
+                    onChange={(e) => this.setState({ newName: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={newPrice}
+                    onChange={(e) => this.setState({ newPrice: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={newQuantity}
+                    onChange={(e) => this.setState({ newQuantity: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={newSold}
+                    onChange={(e) => this.setState({ newSold: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="Popup-button">
+                <button className="yes" onClick={this.handleUpdateItem}>
+                  Update
+                </button>
+                <button className="cancel" onClick={this.handleCancelPopup}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showDeletePopup && (
+          <div className="Popup">
+            <div className="Popup-content">
+              <p>Are you sure you want to delete?</p>
+              <div className="Popup-button">
+                <button className="yes" onClick={this.handleDeleteItem}>
+                  Yes
+                </button>
+                <button className="cancel" onClick={this.handleCancelPopup}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-   
-   <div className="editbox">
-   <input type="text"/>
-   <input type="text"/>
-   <input type="text"/>
-   <input type="text"/>
-   </div>
-      
-   </div>
-   <div className="Popup-button">
-      <button className="yes">Update</button>
-      <button className="cancel" onClick={this.handleCanclePopup}>Cancel</button>
-   </div>
-  </div>
-
-</div>
-
-)}
-
-
-{showDeletePopup &&(
-   <div className="Popup">
-      <div className="Popup-content">
-      <p>Are you sure you want you delete?</p>
-      <div className="Popup-button">
-         <button className="yes">yes</button>
-         <button className="cancel" onClick={this.handleCanclePopup}>Cancel</button>
-      </div>
-
-
-      </div>
-   </div>
-)}
-
-
- </div>
-   }
+    );
+  }
 }
 
+const mapStateToProps = (state) => ({
+  items: state.items,
+});
 
-export default Inventroy;
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addItem(item)),
+  deleteItem: (itemName) => dispatch(deleteItem(itemName)),
+  updateItem: (item) => dispatch(updateItem(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Inventory);
+
+

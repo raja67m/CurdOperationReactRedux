@@ -12,11 +12,17 @@ class Inventory extends React.Component {
     this.state = {
       showEditPopup: false,
       showDeletePopup: false,
+      itemToDelete:null,
       selectedItem: null,
       newName: "",
       newPrice: "",
       newQuantity: "",
       newSold: "",
+
+      name:'',
+      Price:'',
+      quantity:'',
+      sold:'',
     };
   }
 
@@ -56,28 +62,46 @@ class Inventory extends React.Component {
   };
 
   handleDeleteItem = () => {
-    const { selectedItem } = this.state;
-    if (selectedItem) {
-      this.props.deleteItem(selectedItem.name);
+    const { itemToDelete } = this.state;
+    if (itemToDelete) {
+      this.props.deleteItem(itemToDelete); // Pass the item directly
       this.handleCancelPopup();
     }
   };
+  
+//handlechangefuntion
+handleInputChange = (e) => {
+  const { name, value } = e.target;
+  this.setState((prevState) => ({
+    updateItem: {
+      ...prevState.updateItem,
+      [name]: value,
+    },
+  }));
+};
+
+
+
 
   handleShowEditPopup = (item) => {
     this.setState({
       showEditPopup: true,
       selectedItem: item,
-      newName: item.name,
-      newPrice: item.Price,
-      newQuantity: item.quantity,
-      newSold: item.sold,
+      updateItem:{
+        name:item.name,
+        Price:item.Price,
+        quantity:item.quantity,
+        sold:item.sold
+
+      }
+     
     });
   };
 
   handleDeletePopup = (item) => {
-    this.setState({ showDeletePopup: true, selectedItem: item });
+    this.setState({ showDeletePopup: true, itemToDelete: item });
   };
-
+  
   handleCancelPopup = () => {
     this.setState({
       showDeletePopup: false,
@@ -87,7 +111,7 @@ class Inventory extends React.Component {
   };
 
   render() {
-    const { showDeletePopup, showEditPopup, newName, newPrice, newQuantity, newSold } = this.state;
+    const { showDeletePopup, showEditPopup} = this.state;
 
     return (
       <div>
@@ -143,23 +167,23 @@ class Inventory extends React.Component {
                 <div className="editbox">
                   <input
                     type="text"
-                    value={newName}
-                    onChange={(e) => this.setState({ newName: e.target.value })}
+                    value={updateItem.name}
+                    onChange={this.handleInputChange}
                   />
                   <input
                     type="text"
-                    value={newPrice}
-                    onChange={(e) => this.setState({ newPrice: e.target.value })}
+                    value={updateItem.Price}
+                    onChange={this.handleInputChange}
                   />
                   <input
                     type="text"
-                    value={newQuantity}
-                    onChange={(e) => this.setState({ newQuantity: e.target.value })}
+                    value={updateItem.quantity}
+                    onChange={this.handleInputChange}
                   />
                   <input
                     type="text"
-                    value={newSold}
-                    onChange={(e) => this.setState({ newSold: e.target.value })}
+                    value={updateItem.sold}
+                    onChange={this.handleInputChange}
                   />
                 </div>
               </div>

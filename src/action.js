@@ -13,16 +13,20 @@ return{
 };
 }
 
-export const deleteItem=(itemid)=>{
-   return{
-      type:"DELETE_ITEM",
-      palyload:itemid,
-   };
-}
 
-export const updateItem=(item)=>{
-   return{
- type:"UPDATE_ITEM",
- palyload:updateItem
+export const deleteItem = (itemName) => {
+   return {
+     type: DELETE_ITEM,
+     payload: itemName, 
    };
+ };
+ 
+ 
+ 
+
+export const updateItem = (item) => {
+   return {
+     type: UPDATE_ITEM,
+     payload: item,
+ };
 }

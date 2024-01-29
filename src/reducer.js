@@ -13,35 +13,36 @@ switch(action.type){
 case ADD_ITEM:
    return{
       ...state,
-      items:[...state.items.action.payload],
+      items:[...state.items,action.payload],
    };
 
 
    // delete the product 
    case DELETE_ITEM:
-      return{
-
+      return {
         ...state,
-         items: state.items.filter((item) => item.name!== action.payload),
+        items: state.items.filter((item) => item.name!== action.payload.name),
       };
-//update the product 
-case UPDATE_ITEM:
-   return {
-      ...state,
-      items: state.items.map((item) => {
-        if (item.name=== action.payload.itemNumber) {
-          return {
-            ...item,
-            name: action.payload.name,
-            Price: action.payload.Price,
-            quantity:action.payload.quantity,
-            sold:action.payload.sold,
-            };
-        }
-        return item;
-      }),
+
       
-    };
+
+case UPDATE_ITEM:
+  return {
+    ...state,
+    items: state.items.map((item) => {
+      if (item.name === action.payload.name) {
+        return {
+          ...item,
+          name: action.payload.name,
+          Price: action.payload.Price,
+          quantity: action.payload.quantity,
+          sold: action.payload.sold,
+        };
+      }
+      return item;
+    }),
+  };
+
 
 
       default:

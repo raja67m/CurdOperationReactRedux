@@ -1,22 +1,26 @@
 [
    {
-      "name":"coffee",
+      "id":1,
+      "itemName":"coffee",
       "Price":"20$",
       "quantity":4,
       "sold":4
    },
    {
-      "name":"Tea",
+      "id":2,
+      "itemName":"Tea",
       "Price":"14$",
       "quantity":3,
       "sold":4
 },
-{"name":"Cold coffee",
+{   "id":3,
+   "itemName":"Cold coffee",
 "Price":"34$",
 "quantity":6,
 "sold":3
 },{
-   "name":"Burgger",
+   "id":4,
+   "itemName":"Burgger",
    "Price":"30$",
    "quantity":4,
    "sold":3

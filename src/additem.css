@@ -1,0 +1,55 @@
+.Additemcontainer{
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
+.lablesName{
+   display: flex;
+   flex-direction: column;
+}
+.NewItemName{
+   display: flex;
+   flex-direction: column;
+}
+label,input{
+   margin: 10px;
+}
+.Buttons{
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   margin-top: 10px;
+}
+.addbtn{
+   padding: 10px 20px;
+   margin: 5px;
+   color: white;
+   background-color: rgb(7, 189, 7);
+   font-family: sans-serif;
+   font-weight: bold;
+   font-size: 17px;
+   border: none;
+   border-radius: 10px;
+   cursor: pointer;
+}
+.addbtn:hover{
+   background-color: rgb(134, 241, 122);
+   color: black;
+}
+.cancelbtn{
+   padding: 10px 20px;
+   margin: 5px;
+   border: none;
+   font-family: sans-serif;
+   font-weight: bold;
+   font-size: 17px;
+   color: white;
+   background-color: blue;
+   border: none;
+   border-radius: 10px;
+   cursor: pointer;
+}
+.cancelbtn:hover{
+   background-color: rgb(63, 66, 246);
+   color: black;
+}

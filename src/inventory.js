@@ -2,7 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { addItem, deleteItem, updateItem } from "./action";
+import {deleteItem, updateItem } from "./action";
 import { Link } from 'react-router-dom';
 import "./inventroy.css";
 
@@ -10,57 +10,56 @@ class Inventory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showEditPopup: false,
+      showEditPopup: false,  // all variables ini....
       showDeletePopup: false,
-      itemToDelete:null,
       selectedItem: null,
+      newNumber:"",
       newName: "",
       newPrice: "",
       newQuantity: "",
       newSold: "",
-
-      name:'',
-      Price:'',
-      quantity:'',
-      sold:'',
     };
   }
 
-  handleAddItem = () => {
-    const newItem = {
-      name: this.state.newName || "New Product",
-      Price: this.state.newPrice || 0,
-      quantity: this.state.newQuantity || 0,
-      sold: this.state.newSold || 0,
-    };
 
-    this.props.addItem(newItem);
-
-    // Reset the input fields after adding an item
+  // handleEditPopupfunciton
+  handleEditPopup = (item) => {
     this.setState({
-      newName: "",
-      newPrice: "",
-      newQuantity: "",
-      newSold: "",
+      showEditPopup: true,
+      selectedItem: item,
+    
+      newName: item.itemName,
+      newPrice: item.Price,
+      newQuantity: item.quantity,
+      newSold: item.sold,
     });
   };
 
+//handleUpdatedItem
   handleUpdateItem = () => {
     const { selectedItem, newName, newPrice, newQuantity, newSold } = this.state;
+  
     if (selectedItem) {
       const updatedItem = {
         ...selectedItem,
-        name: newName || selectedItem.name,
+        itemName: newName || selectedItem.itemName, // Corrected key to itemName
         Price: newPrice || selectedItem.Price,
         quantity: newQuantity || selectedItem.quantity,
         sold: newSold || selectedItem.sold,
       };
-
+  
       this.props.updateItem(updatedItem);
       this.handleCancelPopup();
     }
   };
+  
+// All input fileds value get one function
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
+  //handleDeletedFunciton
+  
   handleDeleteItem = () => {
     const { itemToDelete } = this.state;
     if (itemToDelete) {
@@ -69,39 +68,15 @@ class Inventory extends React.Component {
     }
   };
   
-//handlechangefuntion
-handleInputChange = (e) => {
-  const { name, value } = e.target;
-  this.setState((prevState) => ({
-    updateItem: {
-      ...prevState.updateItem,
-      [name]: value,
-    },
-  }));
-};
+//handleDeletePopupfunction
 
-
-
-
-  handleShowEditPopup = (item) => {
-    this.setState({
-      showEditPopup: true,
-      selectedItem: item,
-      updateItem:{
-        name:item.name,
-        Price:item.Price,
-        quantity:item.quantity,
-        sold:item.sold
-
-      }
-     
-    });
-  };
 
   handleDeletePopup = (item) => {
     this.setState({ showDeletePopup: true, itemToDelete: item });
   };
   
+//handleCalcelPopup
+
   handleCancelPopup = () => {
     this.setState({
       showDeletePopup: false,
@@ -125,6 +100,7 @@ handleInputChange = (e) => {
         <table>
           <thead>
             <tr>
+            
               <th>Product Name</th>
               <th>Price</th>
               <th>Quantity</th>
@@ -133,14 +109,20 @@ handleInputChange = (e) => {
             </tr>
           </thead>
           <tbody>
+
+
+        
+
+
             {this.props.items.map((item) => (
-              <tr key={item.name}>
-                <td>{item.name}</td>
+              
+              <tr key={item.id}>
+               <td>{item.itemName}</td>
                 <td>{item.Price}</td>
                 <td>{item.quantity}</td>
                 <td>{item.sold}</td>
                 <td>
-                  <button className="Edit" onClick={() => this.handleShowEditPopup(item)}>
+                  <button className="Edit" onClick={() => this.handleEditPopup(item)} >
                     Edit
                   </button>
                   <button className="Delete" onClick={() => this.handleDeletePopup(item)}>
@@ -165,30 +147,15 @@ handleInputChange = (e) => {
                 </div>
 
                 <div className="editbox">
-                  <input
-                    type="text"
-                    value={updateItem.name}
-                    onChange={this.handleInputChange}
-                  />
-                  <input
-                    type="text"
-                    value={updateItem.Price}
-                    onChange={this.handleInputChange}
-                  />
-                  <input
-                    type="text"
-                    value={updateItem.quantity}
-                    onChange={this.handleInputChange}
-                  />
-                  <input
-                    type="text"
-                    value={updateItem.sold}
-                    onChange={this.handleInputChange}
-                  />
+                <input type="text" name="newName" value={this.state.newName} onChange={this.handleInputChange} />
+                  <input type="text" name="newPrice" value={this.state.newPrice} onChange={this.handleInputChange} />
+                  <input type="text" name="newQuantity" value={this.state.newQuantity} onChange={this.handleInputChange} />
+                  <input type="text" name="newSold" value={this.state.newSold} onChange={this.handleInputChange} />
+
                 </div>
               </div>
               <div className="Popup-button">
-                <button className="yes" onClick={this.handleUpdateItem}>
+                <button className="yes" onClick={this.handleUpdateItem} >
                   Update
                 </button>
                 <button className="cancel" onClick={this.handleCancelPopup}>
@@ -224,7 +191,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(addItem(item)),
+
+
   deleteItem: (itemName) => dispatch(deleteItem(itemName)),
   updateItem: (item) => dispatch(updateItem(item)),
 });

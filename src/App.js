@@ -17,6 +17,12 @@ function App() {
           <Routes>
           <Route path="/" element={<Inventroy/>}/>
           <Route path="Add" element={<Additem/>}/>
+          <Route path="cancel" element={<Inventroy/>}/>
+          <Route path="added" element={<Inventroy/>}/>
+
+
+          
+          
           </Routes>
 </div>
 </Provider> 

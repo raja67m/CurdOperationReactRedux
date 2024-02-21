@@ -21,27 +21,29 @@ case ADD_ITEM:
    case DELETE_ITEM:
       return {
         ...state,
-        items: state.items.filter((item) => item.name!== action.payload.name),
+        items: state.items.filter((item) => item.id!== action.payload.id),
       };
 
-      
+     
 
-case UPDATE_ITEM:
-  return {
-    ...state,
-    items: state.items.map((item) => {
-      if (item.name === action.payload.name) {
+      case UPDATE_ITEM:
         return {
-          ...item,
-          name: action.payload.name,
-          Price: action.payload.Price,
-          quantity: action.payload.quantity,
-          sold: action.payload.sold,
+          ...state,
+          items: state.items.map((item) => {
+            if (item.id === action.payload.id){ 
+              return {
+                ...item,
+                itemName: action.payload.itemName,
+                Price: action.payload.Price,
+                quantity: action.payload.quantity,
+                sold: action.payload.sold,
+              };
+            }
+            return item;
+          }),
         };
-      }
-      return item;
-    }),
-  };
+  
+      
 
 
 
